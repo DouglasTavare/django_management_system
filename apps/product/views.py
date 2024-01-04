@@ -15,30 +15,22 @@ import json
 
 class ProductList(APIView):
     def get(self, request):
-        if request.method == 'GET':
 
-            products = Product.objects.all()
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
 
-            serializer = ProductSerializer(products, many=True)
-
-            return Response(serializer.data)
-
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data)
 
     def post(self, request):
-        if request.method == 'POST':
-
-            product = request.data
+        product = request.data
             
-            serializer = ProductSerializer(data=product)
+        serializer = ProductSerializer(data=product)
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProductDetail(APIView):
     def get_object(self, id):
@@ -68,7 +60,7 @@ class ProductDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
     def delete(self, request, id, format=None):
 

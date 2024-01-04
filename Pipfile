@@ -7,8 +7,10 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+pytest = "*"
 
 [dev-packages]
+pytest-django = "*"
 
 [requires]
 python_version = "3.11"

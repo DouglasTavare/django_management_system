@@ -9,11 +9,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def validate_name(self, value):
         if len(value) < 3:
-            raise serializers.ValidationError("Field 'name' must have at least 4 characters")
+            raise serializers.ValidationError("Field 'name' must have at least 3 characters")
         return value
 
     def validate_description(self, value):
-        if len(value) < 9:
+        if len(value) < 10:
             raise serializers.ValidationError("Field 'description' must have at least 10 characters")
         return value
     

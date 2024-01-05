@@ -20,17 +20,34 @@ import json
 class ProductList(APIView):
     pagination_class = CustomNumberPagination
     def get(self, request, *args, **kwargs):
-        products = Product.objects.all()
-
         paginator = self.pagination_class()
-        page = paginator.paginate_queryset(products, request)
 
-        if page is not None:
-            serializer = ProductSerializer(page, many=True)
-            return paginator.get_paginated_response(serializer.data)
+        product_name = request.GET.get('name', None)
 
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+        min_price = request.GET.get('min_price', 0)
+        max_price = request.GET.get('max_price', 99999999999999999)
+        
+        if product_name:                         # Check if there is a get parameter called 'name' (/?name=xxxx&...)
+            products = Product.objects.filter(price__range=(min_price, max_price), name__exact=product_name)   # Get the object in database
+            page = paginator.paginate_queryset(products, request)
+
+            if page is not None:
+                serializer = ProductSerializer(page, many=True)
+                return paginator.get_paginated_response(serializer.data)
+            
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            products = Product.objects.filter(price__range=(min_price, max_price))
+
+            page = paginator.paginate_queryset(products, request)
+
+            if page is not None:
+                serializer = ProductSerializer(page, many=True)
+                return paginator.get_paginated_response(serializer.data)
+
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data)
 
     def post(self, request):
         product = request.data
@@ -77,3 +94,8 @@ class ProductDetail(APIView):
 
         self.get_object(id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+        
+# class ProductFilter(APIView):
+    

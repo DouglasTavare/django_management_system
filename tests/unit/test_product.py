@@ -100,7 +100,7 @@ def test_get_product(api_client) -> None:
 
     response_read = api_client.get(f"/products/", format="json")  
     assert response_read.status_code == 200  
-    assert len(response_read.data) == 2
+    assert len(response_read.data["results"]) == 2
 
 @pytest.mark.django_db  
 def test_patch_product(api_client) -> None:  

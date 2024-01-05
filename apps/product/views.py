@@ -4,21 +4,32 @@ from django.views import View
 from django.http import Http404
 
 from rest_framework.views import APIView
+from django.views.generic.list import ListView 
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Product
 from .serializers import ProductSerializer
+from .paginations import CustomNumberPagination
 
 import json
 
 class ProductList(APIView):
-    def get(self, request):
-
+    pagination_class = CustomNumberPagination
+    def get(self, request, *args, **kwargs):
         products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
 
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(products, request)
+
+        if page is not None:
+            serializer = ProductSerializer(page, many=True)
+            return paginator.get_paginated_response(serializer.data)
+
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
     def post(self, request):

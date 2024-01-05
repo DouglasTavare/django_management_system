@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -18,6 +19,7 @@ from .paginations import CustomNumberPagination
 import json
 
 class ProductList(APIView):
+    permission_classes = (IsAuthenticated, )
     pagination_class = CustomNumberPagination
     def get(self, request, *args, **kwargs):
         paginator = self.pagination_class()
@@ -61,6 +63,8 @@ class ProductList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProductDetail(APIView):
+    permission_classes = (IsAuthenticated, )
+
     def get_object(self, id):
         try:
             return Product.objects.get(pk=id)

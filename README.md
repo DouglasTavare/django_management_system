@@ -140,3 +140,16 @@ PUT method requires all the fields to be passed as the payload in order to updat
 ```bash
 DELETE /products/{id}
 ```
+
+### Tests
+In order to execute the tests written for the REST API functionalities, the following command can be run:
+
+```bash
+pipenv run pytest .
+```
+
+### Code Quality
+In order to verify the quality of the written code, the Pylint Linter library can be run, and a summary of the code analysis seen.
+```bash
+pipenv run pylint *
+```

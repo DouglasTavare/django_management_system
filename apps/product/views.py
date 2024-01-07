@@ -24,15 +24,14 @@ Methods:
 - ProductDetail.delete(request, product_id): Handles DELETE requests for deleting a product.
 """
 from django.http import Http404
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Product
-from .serializers import ProductSerializer
 from .paginations import CustomNumberPagination
+from .serializers import ProductSerializer
 
 
 class ProductList(APIView):
@@ -50,6 +49,7 @@ class ProductList(APIView):
     - get(request): Handles GET requests for listing products.
     - post(request): Handles POST requests for creating a new product.
     """
+
     permission_classes = (IsAuthenticated,)
     pagination_class = CustomNumberPagination
 
@@ -70,9 +70,7 @@ class ProductList(APIView):
         min_price = request.GET.get("min_price", 0)
         max_price = request.GET.get("max_price", 99999999999999999)
 
-        if (
-            product_name
-        ):
+        if product_name:
             products = Product.objects.filter(
                 price__range=(min_price, max_price), name__exact=product_name
             )
@@ -84,8 +82,7 @@ class ProductList(APIView):
 
             return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-        products = Product.objects.filter(
-            price__range=(min_price, max_price))
+        products = Product.objects.filter(price__range=(min_price, max_price))
 
         page = paginator.paginate_queryset(products, request)
 
@@ -121,7 +118,7 @@ class ProductDetail(APIView):
     """
     View for retrieving, updating, and deleting a specific product.
 
-    This view supports retrieving, updating, and deleting a specific product identified by 
+    This view supports retrieving, updating, and deleting a specific product identified by
     'product_id'.
     Authentication is required, and 'IsAuthenticated' permission is enforced.
 
@@ -129,13 +126,14 @@ class ProductDetail(APIView):
     - permission_classes (tuple): Tuple specifying required permissions (IsAuthenticated).
 
     Methods:
-    - get_object(product_id): Helper method to retrieve a Product instance based on the provided 
+    - get_object(product_id): Helper method to retrieve a Product instance based on the provided
     'product_id'.
     - get(request, product_id): Handles GET requests for retrieving a specific product.
     - patch(request, product_id): Handles PATCH requests for partially updating a product.
     - put(request, product_id): Handles PUT requests for updating a product.
     - delete(request, product_id): Handles DELETE requests for deleting a product.
     """
+
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, product_id):
@@ -202,8 +200,7 @@ class ProductDetail(APIView):
         Returns:
         - Response: JSON response containing the updated product data or an error message.
         """
-        serializer = ProductSerializer(
-            self.get_object(product_id), data=request.data)
+        serializer = ProductSerializer(self.get_object(product_id), data=request.data)
 
         if serializer.is_valid():
             serializer.save()

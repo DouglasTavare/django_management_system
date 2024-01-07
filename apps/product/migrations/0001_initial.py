@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     """
     Attributes:
     - initial: A boolean indicating if this is the initial migration.
-    - dependencies: A list of dependencies, indicating other migrations that must be applied 
+    - dependencies: A list of dependencies, indicating other migrations that must be applied
     before this one.
     - operations: A list of migration operations, including the creation of the 'Product' model.
 
@@ -17,27 +17,34 @@ class Migration(migrations.Migration):
     - id: Auto-generated BigAutoField serving as the primary key.
     - name: CharField with a maximum length of 50 characters.
     - description: TextField allowing for optional and longer product descriptions.
-    - price: DecimalField representing the product price with 2 decimal places and a maximum of 
+    - price: DecimalField representing the product price with 2 decimal places and a maximum of
     10 digits.
     - created_at: DateTimeField set to auto_now_add, capturing the creation timestamp.
     - updated_at: DateTimeField set to auto_now, capturing the last update timestamp.
     """
+
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False,
-                                           verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('description', models.TextField(blank=True, null=True)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("description", models.TextField(blank=True, null=True)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
     ]

@@ -240,7 +240,7 @@ def test_patch_product_that_doesnt_exist(authenticated_api_client) -> None:
 @pytest.mark.django_db
 def test_patch_product_with_invalid_values(authenticated_api_client) -> None:
     """
-    Test updating a product with invalid values (short name, short description, low price) using 
+    Test updating a product with invalid values (short name, short description, low price) using
     the PATCH method.
 
     :param authenticated_api_client: Authenticated API client fixture.
@@ -345,7 +345,7 @@ def test_put_product_that_doesnt_exist(authenticated_api_client) -> None:
 @pytest.mark.django_db
 def test_put_product_with_invalid_values(authenticated_api_client) -> None:
     """
-    Test updating a product with invalid values (short name, short description, low price) using 
+    Test updating a product with invalid values (short name, short description, low price) using
     the PUT method.
 
     :param authenticated_api_client: Authenticated API client fixture.
@@ -391,8 +391,7 @@ def test_put_product_with_invalid_values(authenticated_api_client) -> None:
         f"/products/{product_id}", data=payload, format="json"
     )
     assert response_update.status_code == 400
-    assert response_update.data["price"] == [
-        "Field 'price' must be higher than 500"]
+    assert response_update.data["price"] == ["Field 'price' must be higher than 500"]
 
 
 @pytest.mark.django_db
@@ -444,6 +443,5 @@ def test_delete_product_that_doesnt_exist(authenticated_api_client) -> None:
     :param authenticated_api_client: Authenticated API client fixture.
     :return: None
     """
-    response_delete = authenticated_api_client.delete(
-        "/products/1", format="json")
+    response_delete = authenticated_api_client.delete("/products/1", format="json")
     assert response_delete.status_code == 404

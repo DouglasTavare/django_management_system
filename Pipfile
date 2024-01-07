@@ -13,6 +13,10 @@ djangorestframework-simplejwt = "*"
 pylint = "*"
 black = "*"
 pylint-django = "*"
+isort = "*"
+flake8 = "*"
+bandit = "*"
+safety = "*"
 
 [dev-packages]
 pytest-django = "*"

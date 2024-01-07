@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Product
 
 
@@ -25,6 +26,7 @@ class ProductSerializer(serializers.ModelSerializer):
     - validate_price(self, value): Custom validation for the 'price' field.
                                    Raises a ValidationError if the value is less than 500.
     """
+
     class Meta:
         model = Product
         fields = "__all__"
@@ -74,7 +76,6 @@ class ProductSerializer(serializers.ModelSerializer):
         - serializers.ValidationError: If the 'price' is less than 500.
         """
         if value < 500:
-            raise serializers.ValidationError(
-                "Field 'price' must be higher than 500")
+            raise serializers.ValidationError("Field 'price' must be higher than 500")
 
         return value

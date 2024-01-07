@@ -6,10 +6,9 @@ set up with a test user, providing a valid access token for testing endpoints th
 authentication.
 """
 import pytest
-
+from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
 
 
 @pytest.fixture(scope="function")
@@ -29,8 +28,7 @@ def authenticated_api_client():
 
     :return: APIClient
     """
-    user = User.objects.create_user(
-        username="testuser", password="testpassword")
+    user = User.objects.create_user(username="testuser", password="testpassword")
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
 

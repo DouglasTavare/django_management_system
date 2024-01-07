@@ -10,6 +10,8 @@ django-cors-headers = "*"
 pytest = "*"
 djangorestframework-jwt = "*"
 djangorestframework-simplejwt = "*"
+pylint = "*"
+black = "*"
 
 [dev-packages]
 pytest-django = "*"

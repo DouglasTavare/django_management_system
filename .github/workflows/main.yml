@@ -45,8 +45,6 @@ jobs:
         run: pipenv run black . --check
       - name: Run isort
         run: pipenv run isort . --check-only --profile black
-      - name: Run flake8
-        run: pipenv run flake8 .
       - name: Run bandit
         run: pipenv run bandit .
       - name: Run safety

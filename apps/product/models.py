@@ -1,7 +1,8 @@
 from django.db import models
 
+objects = models.Manager()
 
-# Create your models here.
+
 class Product(models.Model):
     """
     Model representing a product.

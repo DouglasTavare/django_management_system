@@ -12,6 +12,7 @@ djangorestframework-jwt = "*"
 djangorestframework-simplejwt = "*"
 pylint = "*"
 black = "*"
+pylint-django = "*"
 
 [dev-packages]
 pytest-django = "*"

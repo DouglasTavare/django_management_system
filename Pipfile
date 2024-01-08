@@ -20,6 +20,7 @@ safety = "*"
 pyjwt = "==2.4.0"
 pytest-cov = "*"
 sphinx = "*"
+sphinx-rtd-theme = "*"
 
 [dev-packages]
 pytest-django = "*"

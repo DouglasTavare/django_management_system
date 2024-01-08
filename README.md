@@ -178,6 +178,9 @@ In order to guarantee that none of the used dependencies have vulnerabilities is
 pipenv run safety check
 ```
 
+### Codecov
+A Codecov summary of the developed code from this repository is available on [Django Management System Codecov](https://app.codecov.io/gh/DouglasTavare/django_management_system).
+
 ### CI/CD Pipelines
 Code quality and testing pipelines have been created for this current repository, and can be accessed through the GitHub Actions tab within this repository.
 

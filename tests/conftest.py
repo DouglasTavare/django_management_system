@@ -21,14 +21,15 @@ def api_client() -> APIClient:
     yield APIClient()
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def authenticated_api_client():
     """
     Fixture to provide an authenticated API client with a valid access token for testing.
 
     :return: APIClient
     """
-    user = User.objects.create_user(username="testuser", password="testpassword")
+    user = User.objects.create_user(
+        username="testuser", password="testpassword")
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
 

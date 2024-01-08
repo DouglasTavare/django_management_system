@@ -17,11 +17,11 @@ isort = "*"
 flake8 = "*"
 bandit = "*"
 safety = "*"
-pyjwt = "==2.8.0"
+pyjwt = "==2.4.0"
 pytest-cov = "*"
 
 [dev-packages]
 pytest-django = "*"
 
 [requires]
-python_version = "3.11"
+python_version = "3.11.5"

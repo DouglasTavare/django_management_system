@@ -17,6 +17,7 @@ isort = "*"
 flake8 = "*"
 bandit = "*"
 safety = "*"
+pyjwt = "==2.8.0"
 
 [dev-packages]
 pytest-django = "*"

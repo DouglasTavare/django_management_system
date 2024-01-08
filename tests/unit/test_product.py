@@ -180,6 +180,155 @@ def test_get_product(authenticated_api_client) -> None:
 
 
 @pytest.mark.django_db
+def test_get_product_by_name(authenticated_api_client) -> None:
+    """
+    Test retrieving product details within a given name.
+
+    :param authenticated_api_client: Authenticated API client fixture.
+    :return: None
+    """
+    payload = {
+        "name": "First test product",
+        "description": "Fist test product description",
+        "price": 650,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    payload = {
+        "name": "Second test product",
+        "description": "Second test product description",
+        "price": 750,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    product_name = response_create.data["name"]
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    # Read the product data
+    response_read = authenticated_api_client.get(
+        f"/products/?name={product_name}", format="json"
+    )
+    assert response_read.status_code == 200
+    assert response_read.data["results"][0]["name"] == payload["name"]
+
+
+@pytest.mark.django_db
+def test_get_product_by_name_that_doesnt_exist(authenticated_api_client) -> None:
+    """
+    Test retrieving product details within a given name.
+
+    :param authenticated_api_client: Authenticated API client fixture.
+    :return: None
+    """
+    payload = {
+        "name": "First test product",
+        "description": "Fist test product description",
+        "price": 650,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    product_name = "Non existing product"
+
+    # Read the product data
+    response_read = authenticated_api_client.get(
+        f"/products/?name={product_name}", format="json"
+    )
+    assert response_read.status_code == 200
+    assert response_read.data["count"] == 0
+
+
+@pytest.mark.django_db
+def test_get_product_by_price_range(authenticated_api_client) -> None:
+    """
+    Test retrieving product details within a price range.
+
+    :param authenticated_api_client: Authenticated API client fixture.
+    :return: None
+    """
+    payload = {
+        "name": "First test product",
+        "description": "Fist test product description",
+        "price": 3000,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    payload = {
+        "name": "Second test product",
+        "description": "Second test product description",
+        "price": 750,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    product_price = response_create.data["price"]
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    # Read the product data
+    response_read = authenticated_api_client.get(
+        f"/products/?min_price={float(product_price) * 0.5}&max_price={float(product_price) * 1.5}",
+        format="json",
+    )
+    assert response_read.status_code == 200
+    assert response_read.data["results"][0]["name"] == payload["name"]
+
+
+@pytest.mark.django_db
+def test_get_product_by_price_range_that_doesnt_exist(authenticated_api_client) -> None:
+    """
+    Test retrieving product details within a price range.
+
+    :param authenticated_api_client: Authenticated API client fixture.
+    :return: None
+    """
+    payload = {
+        "name": "First test product",
+        "description": "Fist test product description",
+        "price": 650,
+    }
+
+    # Create a product
+    response_create = authenticated_api_client.post(
+        "/products/", data=payload, format="json"
+    )
+    product_price = response_create.data["price"]
+    assert response_create.status_code == 201
+    assert response_create.data["name"] == payload["name"]
+
+    # Read the product data
+    response_read = authenticated_api_client.get(
+        f"/products/?min_price={float(product_price) * 1.5}&max_price={float(product_price) * 3}",
+        format="json",
+    )
+    assert response_read.status_code == 200
+    assert response_read.data["count"] == 0
+
+
+@pytest.mark.django_db
 def test_get_product_that_doesnt_exist(authenticated_api_client) -> None:
     """
     Test retrieving product details and a list of products.
@@ -445,3 +594,54 @@ def test_delete_product_that_doesnt_exist(authenticated_api_client) -> None:
     """
     response_delete = authenticated_api_client.delete("/products/1", format="json")
     assert response_delete.status_code == 404
+
+
+@pytest.mark.django_db
+def test_methods_with_unauthenticated_api_client(api_client) -> None:
+    """
+    Test API methods with an unauthenticated client.
+
+    :param authenticated_api_client: Authenticated API client fixture.
+    :return: None
+    """
+    payload = {
+        "name": "Test product",
+        "description": "Test product description",
+        "price": 650,
+    }
+
+    response_create = api_client.post("/products/", data=payload, format="json")
+    assert response_create.status_code == 401
+    assert (
+        response_create.data["detail"]
+        == "Authentication credentials were not provided."
+    )
+
+    response_read = api_client.get(f"/products/", format="json")
+    assert response_read.status_code == 401
+    assert (
+        response_read.data["detail"] == "Authentication credentials were not provided."
+    )
+
+    response_update = api_client.put(f"/products/1", data=payload, format="json")
+    assert response_update.status_code == 401
+    assert (
+        response_update.data["detail"]
+        == "Authentication credentials were not provided."
+    )
+
+    response_update = api_client.patch(
+        f"/products/1", data={"name": "Patched name"}, format="json"
+    )
+    assert response_update.status_code == 401
+    assert (
+        response_update.data["detail"]
+        == "Authentication credentials were not provided."
+    )
+
+    response_delete = api_client.delete(f"/products/1", format="json")
+    assert response_delete.status_code == 401
+    assert (
+        response_delete.data["detail"]
+        == "Authentication credentials were not provided."
+    )

@@ -19,6 +19,7 @@ bandit = "*"
 safety = "*"
 pyjwt = "==2.4.0"
 pytest-cov = "*"
+sphinx = "*"
 
 [dev-packages]
 pytest-django = "*"

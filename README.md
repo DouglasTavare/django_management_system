@@ -149,7 +149,37 @@ pipenv run pytest .
 ```
 
 ### Code Quality
-In order to verify the quality of the written code, the Pylint Linter library can be run, and a summary of the code analysis seen.
+In order to verify the quality of the written code, the Pylint linter library can be run, and a summary of the code analysis seen.
 ```bash
 pipenv run pylint *
 ```
+
+### Code Formatting
+In order to verify the formatting pattern of the written code, the Black formatting library can be run, and misformatted files seen.
+```bash
+pipenv run black . --check
+```
+
+### Libraries importing order
+In order to verify if the libraries imports are respecting the pattern order, Isort importing order library can be run.
+```bash
+pipenv run isort . --check-only --profile black
+```
+
+### Security validation
+In order to guarantee that there is no existing security issues in the code, Bandit security verification library can be run and unsafe files reported.
+```bash
+pipenv run bandit .
+```
+
+### Dependencies vulnerabilities
+In order to guarantee that none of the used dependencies have vulnerabilities issues, Safety dependencies verification library can be run, and existing dependencies vulnerabilites get shown.
+```bash
+pipenv run safety check
+```
+
+### CI/CD Pipelines
+Code quality and testing pipelines have been created for this current repository, and can be accessed through the GitHub Actions tab within this repository.
+
+### Documentation
+Project documentation can be accessed through: [Django Management System Documentation](https://django-management-system.readthedocs.io/en/latest/)

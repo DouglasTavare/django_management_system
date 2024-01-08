@@ -28,8 +28,7 @@ def authenticated_api_client():
 
     :return: APIClient
     """
-    user = User.objects.create_user(
-        username="testuser", password="testpassword")
+    user = User.objects.create_user(username="testuser", password="testpassword")
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
 

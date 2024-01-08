@@ -18,6 +18,7 @@ flake8 = "*"
 bandit = "*"
 safety = "*"
 pyjwt = "==2.8.0"
+pytest-cov = "*"
 
 [dev-packages]
 pytest-django = "*"

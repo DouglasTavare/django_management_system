@@ -8,8 +8,9 @@
 import os
 import sys
 import django
-sys.path.insert(0, os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'django_management_system.settings'
+
+sys.path.insert(0, os.path.abspath(".."))
+os.environ["DJANGO_SETTINGS_MODULE"] = "django_management_system.settings"
 django.setup()
 
 project = "Django Management System"

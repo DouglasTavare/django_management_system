@@ -1,4 +1,4 @@
-django_management_system
+Django Management System
 ========================
 
 .. toctree::

@@ -7,12 +7,19 @@ permissions:
 
 jobs:
   docs:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11.5']
+        pipenv-version: ['2023.11.15']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Install Pipenv
-        run: pip install pipenv==2023.8.25
+        run: pip install pipenv==${{ matrix.pipenv-version }}
       - name: Install dependencies
         run: pipenv install --dev
       - name: Sphinx build

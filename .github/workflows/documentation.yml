@@ -22,6 +22,9 @@ jobs:
         run: pip install pipenv==${{ matrix.pipenv-version }}
       - name: Install dependencies
         run: pipenv install --dev
+      - name: Install sphinx dependencies
+        run: |
+          pip install sphinx sphinx_rtd_theme myst_parser
       - name: Sphinx build
         run: |
           sphinx-build docs _build

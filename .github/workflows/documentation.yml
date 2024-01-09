@@ -24,7 +24,7 @@ jobs:
         run: pipenv install --dev
       - name: Install sphinx dependencies
         run: |
-          pip install sphinx sphinx_rtd_theme myst_parser django django-rest-framework
+          pip install sphinx sphinx_rtd_theme myst_parser django django-rest-framework django-cors-headers
       - name: Sphinx build
         run: |
           sphinx-build docs _build
